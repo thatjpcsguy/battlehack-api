@@ -7,16 +7,55 @@
 			background-size: cover;
 			background-repeat: no-repeat;
 			background-position: center;
+
+			font-family: Helvetica Neue, Helvetica;
+			color: white;
+			font-weight: 100;
+			padding: 0;
+			margin: 0;
 		}
 		img {
-			margin-top: 100px;
+			margin-top: 200px;
+			height: 256px;
+			/*margin-bottom: 100px;*/
+		}
+
+		span {
+			position: absolute;
+			bottom: 0px;
+			/*color: #232323;*/
+			text-align: center;
+			width: 100%;
+			height: 140px;
+
+			background: -moz-linear-gradient(top, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.01) 1%, rgba(0,0,0,0.8) 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.01)), color-stop(1%,rgba(0,0,0,0.01)), color-stop(100%,rgba(0,0,0,0.8))); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.01) 1%,rgba(0,0,0,0.8) 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.01) 1%,rgba(0,0,0,0.80) 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(top, rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.01) 1%,rgba(0,0,0,0.80) 100%); /* IE10+ */
+			background: linear-gradient(to bottom, rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.01) 1%,rgba(0,0,0,0.80) 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+		}
+
+		span a {
+			color: white;
+
+		}
+
+		span p {
+			margin-top: 80px;
+		}
+
+		h2 {
+			font-weight: 200;
 		}
 	</style>
 
 </head>
 <body>
 	<center>
-		<img src="{{ url_for('static', filename='logo.png') }}" />
+		<img src="{{ url_for('static', filename='logo.png') }}" alt="Sellular" />
+		<h2>Buy and sell preloved items in your neighbourhood.</h2>
 	</center>
-
+	<span><p>Built By: <a href="http://www.twitter.com/thatjpcsguy">@thatjpcsguy</a>, <a href="http://www.twitter.com/jimm_y_oung">@jimm_y_oung</a>, <a href="http://www.twitter.com/asafnur_arafin">@asafnur_arafin</a>, and <a href="http://www.twitter.com/international-e">@international-e</a> at <a href="http://battlehack.org">BattleHack</a> Sydney</p></span>
 </body>
