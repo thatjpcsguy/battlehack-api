@@ -38,25 +38,10 @@ app.debug = True
 
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
-_CLIENT_ID = ''
-_CLIENT_SECRET = ''
 
-
-# DB = {
-#     'host': '127.0.0.1',
-#     'user': 'battlehack',
-#     'passwd': 'lolol1234',
-#     'db': 'battlehack',
-#     'port': 3306,
-# }
-
-db = MySQLdb.connect(host = "127.0.0.1", user = "root", passwd = "lolol1234", db = "sellular", cursorclass=MySQLdb.cursors.DictCursor)
+db = MySQLdb.connect(host = "127.0.0.1", user = "sellular", passwd = "lolol1234", db = "sellular", cursorclass=MySQLdb.cursors.DictCursor)
+#db = MySQLdb.connect(host = "127.0.0.1", user = "battlehack", passwd = "lolol1234", db = "battlehack", cursorclass=MySQLdb.cursors.DictCursor)
 db_cur = db.cursor()
-
-# con = _mysql.connect(host="127.0.0.1", user="battlehack", passwd="lolol1234", db="battlehack")
-# fb = facebook.FacebookAPI(client_id=_CLIENT_ID,client_secret=_CLIENT_SECRET)
-
-# graph = facebook.GraphAPI('656163467792074|8SjMIhn45uYxGpbGkIePkNpY3zM')
 
 
 # apns = APNs(use_sandbox=True, cert_file='certs/caricatures_cert.pem', key_file='certs/caricatures_key.pem')
@@ -86,24 +71,37 @@ def hello():
 def nearby(lat, lon, dist):
     lat_upper, lat_lower, lon_upper, lon_lower = coordinate_bounds(float(lat), float(lon), float(dist))
 
-    # con.query("SELECT * FROM listings l WHERE status = 'OPEN' AND lat BETWEEN {0} AND {1} AND lon BETWEEN {2} AND {3}".format(min(lat_lower, lat_upper), max(lat_lower, lat_upper), min(lon_lower, lon_upper), max(lon_lower, lon_upper)))
-    
-    db_cur.execute("SELECT * FROM listings l")
-    # res = con.store_result()
+    db_cur.execute("SELECT * FROM listings l WHERE status = 'OPEN' AND lat BETWEEN {0} AND {1} AND lon BETWEEN {2} AND {3}".format(min(lat_lower, lat_upper), max(lat_lower, lat_upper), min(lon_lower, lon_upper), max(lon_lower, lon_upper)))
     
     rows = db_cur.fetchall()
-    # print rows
 
     out = {"data":[]}
 
     for row in rows:
-        # print row
         dist = haversine((float(lat), float(lon)), (float(row['lat']), float(row['lon'])))
         row['dist'] = dist*1000
         out["data"].append(row)
 
 
     return jsonify(out)
+
+
+@app.route('/fetch/<user_id>')
+def fetch(user_id):
+    db_cur.execute("SELECT * FROM listings l WHERE user_id = '{0}' ORDER BY listing_time DESC".format(user_id))
+    
+    rows = db_cur.fetchall()
+
+    out = {"data":[]}
+
+    for row in rows:
+        dist = haversine((float(lat), float(lon)), (float(row['lat']), float(row['lon'])))
+        row['dist'] = dist*1000
+        out["data"].append(row)
+
+
+    return jsonify(out)
+
 
 @app.route('/img/<path>')
 def img(path):
