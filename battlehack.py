@@ -50,7 +50,7 @@ _CLIENT_SECRET = ''
 #     'port': 3306,
 # }
 
-db = MySQLdb.connect(host = "127.0.0.1", user = "battlehack", passwd = "lolol1234", db = "battlehack", cursorclass=MySQLdb.cursors.DictCursor)
+db = MySQLdb.connect(host = "127.0.0.1", user = "root", passwd = "lolol1234", db = "sellular", cursorclass=MySQLdb.cursors.DictCursor)
 db_cur = db.cursor()
 
 # con = _mysql.connect(host="127.0.0.1", user="battlehack", passwd="lolol1234", db="battlehack")
@@ -167,7 +167,7 @@ def listing():
 
         
 
-    db_cur.execute("INSERT INTO  listings (user_id, lat, lon, title, image_url, thumbnail_url, description, price, status) VALUES (%s, %s, %s, '%s', '%s', '%s', '%s', %s, 'OPEN')" % (listing_info['FBUser']['id'], listing_info['lat'], listing_info['long'], listing_info['title_data'], "http://192.168.96.81:5000/img/"+filename, "http://192.168.96.81:5000/img/"+thumbname, listing_info['desc'], listing_info['price']))
+    db_cur.execute("INSERT INTO  listings (user_id, lat, lon, title, image_url, thumbnail_url, description, price, status) VALUES (%s, %s, %s, '%s', '%s', '%s', '%s', %s, 'OPEN')" % (listing_info['FBUser']['id'], listing_info['lat'], listing_info['long'], listing_info['title_data'], "http://sellular.co/img/"+filename, "http://sellular.co/img/"+thumbname, listing_info['desc'], listing_info['price']))
     db.commit()
     return jsonify(status=True)
 
