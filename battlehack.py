@@ -95,10 +95,7 @@ def fetch(user_id):
     out = {"data":[]}
 
     for row in rows:
-        dist = haversine((float(lat), float(lon)), (float(row['lat']), float(row['lon'])))
-        row['dist'] = dist*1000
         out["data"].append(row)
-
 
     return jsonify(out)
 
