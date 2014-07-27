@@ -171,16 +171,19 @@ def listing():
 
 @app.route('/users', methods=['POST'])
 def users():
-    if request.method == 'POST':
-        user_info = json.loads(request.form['data'])
-        db_cur.execute("INSERT INTO users (user_id, first_name, last_name, email) VALUES ('%s', '%s', '%s', '%s') ON DUPLICATE KEY UPDATE last_login_time = NOW()" % (user_info['id'], user_info['first_name'], user_info['last_name'], user_info['email']))
-        db_cur.execute("INSERT INTO devices (user_id, token) VALUES ('%s', '%s') ON DUPLICATE KEY UPDATE token = '%s'" % (user_info['id'], user_info['device_token'], user_info['device_token']))
-        return jsonify(status=True)
-    elif request.method == 'GET':
-        return jsonify(status=False)
-    else:
-        return jsonify(status=False)
 
+    user_info = json.loads(request.form['data'])
+    db_cur.execute("INSERT INTO users (user_id, first_name, last_name, email) VALUES ('%s', '%s', '%s', '%s') ON DUPLICATE KEY UPDATE last_login_time = NOW()" % (user_info['id'], user_info['first_name'], user_info['last_name'], user_info['email']))
+    db_cur.execute("INSERT INTO devices (user_id, token) VALUES ('%s', '%s') ON DUPLICATE KEY UPDATE token = '%s'" % (user_info['id'], user_info['device_token'], user_info['device_token']))
+    return jsonify(status=True)
+
+
+@app.route('/purchase', methods=['POST'])
+def purchase():
+    purchase_info = json.loads(request.form['data'])
+    db_cur.execute("INSERT INTO transactions (listing_id, user_id) VALUES (%s, %s)" % (purchase_info['listing_id'], purchase_info['user_id']))
+    db_cur.execute("UPDATE listings SET status = 'CLOSED' WHERE listing_id = %s" % purchase_info['listing_id'])
+    db.commit()
 
 
 if __name__ == "__main__":
