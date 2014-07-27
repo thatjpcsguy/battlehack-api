@@ -40,7 +40,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 db = MySQLdb.connect(host = "127.0.0.1", user = "sellular", passwd = "lolol1234", db = "sellular", cursorclass=MySQLdb.cursors.DictCursor)
-#db = MySQLdb.connect(host = "127.0.0.1", user = "battlehack", passwd = "lolol1234", db = "battlehack", cursorclass=MySQLdb.cursors.DictCursor)
+# db = MySQLdb.connect(host = "127.0.0.1", user = "battlehack", passwd = "lolol1234", db = "battlehack", cursorclass=MySQLdb.cursors.DictCursor)
 db_cur = db.cursor()
 
 
@@ -71,8 +71,9 @@ def hello():
 def nearby(lat, lon, dist):
     lat_upper, lat_lower, lon_upper, lon_lower = coordinate_bounds(float(lat), float(lon), float(dist))
 
-    db_cur.execute("SELECT * FROM listings l WHERE status = 'OPEN' AND lat BETWEEN {0} AND {1} AND lon BETWEEN {2} AND {3}".format(min(lat_lower, lat_upper), max(lat_lower, lat_upper), min(lon_lower, lon_upper), max(lon_lower, lon_upper)))
-    
+    # db_cur.execute("SELECT * FROM listings l WHERE status = 'OPEN' AND lat BETWEEN {0} AND {1} AND lon BETWEEN {2} AND {3}".format(min(lat_lower, lat_upper), max(lat_lower, lat_upper), min(lon_lower, lon_upper), max(lon_lower, lon_upper)))
+    db_cur.execute("SELECT * FROM listings l WHERE status = 'OPEN'");
+
     rows = db_cur.fetchall()
 
     out = {"data":[]}
